@@ -1,18 +1,16 @@
 import java.util.ArrayList;
 
-
 public class Board {
 	private ArrayList<Place> grid;
 	private final int SIZE = 4;
 	private int player;
 	private ArrayList<Integer> moves;
 
-	
 	public int getSize() {
 		return SIZE;
 	}
-	
-	/*Create empty board with zeroes*/
+
+	/* Create empty board with zeroes */
 	public void initializeGrid() {
 		player = 1;
 		grid = new ArrayList<>();
@@ -23,7 +21,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	/**
 	 * Display board
 	 */
@@ -45,11 +43,14 @@ public class Board {
 		}
 	}
 
-
 	/**
-	 * Takes x and y coordinates and returns the place corresponding to those coordinates
-	 * @param x horizontal coordinate
-	 * @param y vertical coordinate
+	 * Takes x and y coordinates and returns the place corresponding to those
+	 * coordinates
+	 * 
+	 * @param x
+	 *            horizontal coordinate
+	 * @param y
+	 *            vertical coordinate
 	 * @return the Place at xy
 	 */
 	public Place getPlace(int x, int y) {
@@ -59,21 +60,21 @@ public class Board {
 		}
 		return null;
 	}
-	
-	/*Adds token in the board in the specified column*/
+
+	/* Adds token in the board in the specified column */
 	public String addToken(int column) {
 		if (column > SIZE || column < 1)
 			return "ERROR";
 		for (int i = 1; i <= SIZE; i++) {
 			if (getPlace(column, i).getPlayer() == 0) {
 				getPlace(column, i).setPlayer(player);
-				//Checks if it's a win after the token was added
-				if (isWin(column,i))
+				// Checks if it's a win after the token was added
+				if (isWin(column, i))
 					return "WIN";
-				//If it was not a win it checks if it ended in a draw
+				// If it was not a win it checks if it ended in a draw
 				else if (isDraw())
 					return "DRAW";
-				//Changes the turn to the next player
+				// Changes the turn to the next player
 				else {
 					addMove(column);
 					if (player == 1)
@@ -86,60 +87,73 @@ public class Board {
 		}
 		return "ERROR";
 	}
-	
+
 	public boolean isCorner(int x, int y) {
-		if((x==1&&y==1) || (x==1&&y==SIZE) || (x==SIZE&&y==1) || (x==SIZE&&y==SIZE)){
+		if ((x == 1 && y == 1) || (x == 1 && y == SIZE) || (x == SIZE && y == 1) || (x == SIZE && y == SIZE)) {
 			return true;
 		}
 		return false;
 	}
-	
-	/*Checks if a player has won*/
+
+	/* Checks if a player has won */
 	public boolean isWin(int x, int y) {
-		if(isCorner(x,y))
-			if(horizontalWin(y) || verticalWin(x) || diagonalWin(x,y))
+		if (isCorner(x, y))
+			if (horizontalWin(y) || verticalWin(x) || diagonalWin(x, y))
 				return true;
-		else
-			if(horizontalWin(y) || verticalWin(x))
+			else if (horizontalWin(y) || verticalWin(x))
 				return true;
 		return false;
 	}
-	/*Checks the row for the same player*/
+
+	/* Checks the row for the same player */
 	public boolean horizontalWin(int y) {
-		for(int i = 1; i <= SIZE; i++) {
-			if(getPlace(i, y).getPlayer() != player)
+		for (int i = 1; i <= SIZE; i++) {
+			if (getPlace(i, y).getPlayer() != player)
 				return false;
 		}
 		return true;
 	}
-	
-	/*Checks column for the same player*/
+
+	/* Checks column for the same player */
 	public boolean verticalWin(int x) {
-		for(int i = 1; i <= SIZE; i++) {
-			if(getPlace(x, i).getPlayer() != player)
+		for (int i = 1; i <= SIZE; i++) {
+			if (getPlace(x, i).getPlayer() != player)
 				return false;
 		}
 		return true;
 	}
-	
+
 	public boolean diagonalWin(int x, int y) {
-		return false;
+		if ((x == 1 && y == 1) || (x == 4 && y == 4)) {
+			for (int i = 1; i <= SIZE; i++) {
+				if (getPlace(i, i).getPlayer() != player)
+					return false;
+			}
+		} else {
+			for (int i = 1, j = SIZE; i <= SIZE && j >= 1; i++, j--) {
+
+				if (getPlace(i, j).getPlayer() != player)
+					return false;
+
+			}
+		}
+		return true;
 	}
-	
+
 	public boolean isDraw() {
-		for(Place p : grid) {
-			if(p.getPlayer() == 0)
+		for (int i = 1; i <= SIZE; i++) {
+			if (getPlace(i, SIZE).getPlayer() == 0)
 				return false;
 		}
 		return true;
 	}
-	
+
 	public void addMove(int col) {
 		moves.add(col);
 	}
-	
+
 	public void printMoves() {
-		for(int i : moves) {
+		for (int i : moves) {
 			System.out.println(i);
 		}
 	}
