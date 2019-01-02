@@ -1,9 +1,12 @@
 import java.util.Scanner;
 
 public class Game {
+	/**Game board */
 	private static Board board = new Board();
 
-	/* Takes the user input and what the user wants to do */
+	/**
+	 * Takes the user input and calls the corresponding functions from Board
+	 */
 	public static void play() {
 		Scanner scr = new Scanner(System.in);
 		String state = "";
