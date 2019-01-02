@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 
 public class Board {
-	private static ArrayList<Place> grid;
-	private static final int SIZE = 4;
-	private static int player;
+	private ArrayList<Place> grid;
+	private final int SIZE = 4;
+	private int player;
+	private ArrayList<Integer> moves;
 
 	
 	public int getSize() {
@@ -15,6 +16,7 @@ public class Board {
 	public void initializeGrid() {
 		player = 1;
 		grid = new ArrayList<>();
+		moves = new ArrayList<>();
 		for (int i = 1; i <= SIZE; i++) {
 			for (int j = 1; j <= SIZE; j++) {
 				grid.add(new Place(j, i));
@@ -60,6 +62,8 @@ public class Board {
 	
 	/*Adds token in the board in the specified column*/
 	public String addToken(int column) {
+		if (column > SIZE || column < 1)
+			return "ERROR";
 		for (int i = 1; i <= SIZE; i++) {
 			if (getPlace(column, i).getPlayer() == 0) {
 				getPlace(column, i).setPlayer(player);
@@ -71,6 +75,7 @@ public class Board {
 					return "DRAW";
 				//Changes the turn to the next player
 				else {
+					addMove(column);
 					if (player == 1)
 						player = 2;
 					else
@@ -127,5 +132,15 @@ public class Board {
 				return false;
 		}
 		return true;
+	}
+	
+	public void addMove(int col) {
+		moves.add(col);
+	}
+	
+	public void printMoves() {
+		for(int i : moves) {
+			System.out.println(i);
+		}
 	}
 }

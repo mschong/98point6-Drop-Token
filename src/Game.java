@@ -2,9 +2,8 @@ import java.util.Scanner;
 
 public class Game {
 	private static Board board = new Board();
-	
-	
-	/*Takes the user input and what the user wants to do*/
+
+	/* Takes the user input and what the user wants to do */
 	public static void play() {
 		Scanner scr = new Scanner(System.in);
 		String state = "";
@@ -15,17 +14,13 @@ public class Game {
 			if (cmd[0].equals("BOARD"))
 				board.printBoard();
 			else if (cmd[0].equals("GET"))
-				System.out.println("hacer algo para get");
+				board.printMoves();
 			else if (cmd[0].equals("PUT") && cmd.length > 1) {
 				int col = Integer.parseInt(cmd[1]);
-				if (col > board.getSize() || col < 1)
-					System.out.println("ERROR");
-				else {
-					state = board.addToken(col);
-					System.out.println(state);
-				}
-			}
-			else if(cmd[0].equals("EXIT"))
+				state = board.addToken(col);
+				System.out.println(state);
+
+			} else if (cmd[0].equals("EXIT"))
 				System.exit(0);
 			else
 				System.out.println("INVALID COMMAND");
@@ -33,8 +28,6 @@ public class Game {
 		board.printBoard();
 		scr.close();
 	}
-
-	
 
 	public static void main(String[] args) {
 		System.out.println("98point6 DROP TOKEN");
